@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>  
+<link rel="stylesheet"  type="text/css" href="style.css"> 
+<script type="application/javascript">
+
+
+// paddle
+
+pX = 20;   // paddle position X
+pY = 200;  // paddle positon  Y  
+pS = 80 ;  // paddle size
+p2X= 760;
+p2Y = 200
+
+bX = 400;
+bY = 200;
+bR = 20;
+bvX = 3.0;
+bvY = 3.0;
+ballSpeed = 8
+
+p1 = false
+p2 = false
+
+boundryX = 800
+boundryY = 400
+
+p1Score = 0
+p2Score = 0
+var startPlay = false
+var t = 0;
+function updateBall(ctx){
+if (startPlay == true){
+    ctx.save()
+    if ((bX + bR)>= boundryX){
+        p1Score = p1Score + 1
+        document.getElementById("score1").innerHTML = p1Score
+        if (p1Score >= 7){
+            document.getElementById('playNum').innerHTML = 'Two'
+            var modal = document.getElementById('winModal')
+            modal.style.display = 'block'
+            startPlay = false
+        }
+        bX = 400;
+    }
+    if ((bX - bR)<= 0){
+        p2Score = p2Score + 1
+        document.getElementById("score").innerHTML = p2Score
+        if (p2Score >= 7){
+            document.getElementById('playNum').innerHTML = 'One'
+            var modal = document.getElementById('winModal')
+            modal.style.display = 'block'
+            startPlay = false
+        }
+        bX = 400;
+    }
+    if ((bY + bR) >= boundryY){
+        bvY = -ballSpeed
+    }
+    if ((bY - bR)<= 0){
+        bvY = ballSpeed
+    }
+    if(((bX -bR/2) <= (pX+ 15)) && (bY >= pY) && (bY <= (pY +pS))){
+        bvX = ballSpeed*Math.random()
+        t = 100
+        p1 = true
+
+    }
+    if (((bX + bR/2) >= p2X) && (bY >= p2Y) && (bY <= (p2Y + pS))){
+        bvX = -ballSpeed*Math.random()
+        t = 100
+        p2 = true
+    }
+
+    bX = bX + bvX;
+    bY = bY + bvY;
+
+    if (t == 0){
+    p1 = false
+    p2 = false
+    ctx.fillStyle = 'rgba(153,51 102)';
+    ctx.arc(bX, bY, bR, 0, 2*Math.PI, 0);
+    ctx.fill();
+    ctx.rotate((Math.PI / 180) * 25);
+    } else {
+        ctx.strokeStyle = 'rgba(255, 255, 0)';
+        ctx.fillStyle = 'rgba(' + (t+50) + ', 255, ' + (t+120) +',+0.9)';
+        ctx.arc(bX, bY, bR, 0, 2*Math.PI, 0);
+        ctx.fill();
+        ctx.rotate((Math.PI / 180) * 25);
+        t = t-1
+    }
+    ctx.restore()
+}
+else{
+    ctx.save()
+    ctx.fillStyle = 'rgba(0, 200, 0)';
+    ctx.arc(bX, bY, bR, 0, 2*Math.PI, 0);
+    ctx.fill();
+    ctx.restore()
+}
+
+}
+
+function updatePaddle1(ctx){
+ctx.save()
+if (p1 == true){
+    ctx.lineWidth = 15;
+    ctx.strokeStyle = 'rgba(' + (t+100) +',' + t +', 0, 0.8)';
+    ctx.beginPath();
+    ctx.moveTo(pX, pY);
+    ctx.lineTo(pX, pY+pS);
+    ctx.stroke();
+    ctx.closePath();
+    
+}
+if (t == 0 || p1 == false){
+    ctx.lineWidth = 15;
+    ctx.strokeStyle = 'rgb(50, 107, 66)';
+    ctx.beginPath();
+    ctx.moveTo(pX, pY);
+    ctx.lineTo(pX, pY+pS);
+    ctx.stroke();
+    ctx.closePath(); 
+}
+ctx.restore();
+}
+var pad2Speed = 3
+ function paddle2(ctx){
+     ctx.save()
+     if (ballSpeed > 0 && Math.abs(p2X-bX) < 30){
+        if (p2Y < bY){
+            p2Y = p2Y + pad2Speed
+        }
+        if (p2Y > bY){
+            p2Y = p2Y - pad2Speed
+        }
+         if (p2Y <= 0){
+            p2Y = 0
+         }
+         if ((p2Y + pS) >= boundryY){
+            p2Y=boundryY-pS
+         }
+        if(p2 == true){
+            ctx.fillStyle= 'rgba(100,' +  t +',' + (t+150) +', 0.8)';
+            ctx.fillRect(p2X, p2Y, 15, pS);
+        }
+        if(t == 0 || p2 == false){
+            ctx.fillStyle= "rgb(50, 107, 66)";
+            ctx.fillRect(p2X, p2Y, 15, pS);
+        }
+     }else {
+        if(p2 == true){
+            ctx.fillStyle= 'rgba(100,' +  t +',' + (t+150) +', 0.8)';
+            ctx.fillRect(p2X, p2Y, 15, pS);
+        }
+        if(t == 0 || p2 == false){
+            ctx.fillStyle= "rgb(50, 107, 66)";
+            ctx.fillRect(p2X, p2Y, 15, pS);
+        }
+     }
+
+    ctx.restore();
+}
+function table(ctx){
+ctx.save()
+ctx.beginPath();
+ctx.moveTo(300, 100);
+ctx.arcTo(250, 100, 250, 150, 50);
+ctx.lineTo(250, 250);
+ctx.arcTo(250, 300, 300, 300, 50);
+ctx.lineTo(500, 300);
+ctx.arcTo(550, 300, 550, 250, 50);
+ctx.lineTo(550, 150)
+ctx.arcTo(550, 100, 500, 100, 50);
+ctx.lineTo(300, 100)
+ctx.fillStyle="rgb(0, 128, 255)";
+ctx.fill();
+ctx.stroke();
+ctx.closePath();
+ctx.restore()
+}
+function net(ctx){
+ctx.save()
+ctx.beginPath()
+ctx.moveTo(390, 90)
+ctx.lineTo(410, 90)
+ctx.lineTo(410, 310)
+ctx.lineTo(390, 310)
+ctx.lineTo(390, 90)
+ctx.fillStyle="white"
+ctx.fill()
+ctx.stroke()
+ctx.closePath()
+ctx.restore()
+}
+
+function draw(){
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+ctx.globalCompositeOperation = "source-over"
+
+// clear the canvas
+ctx.clearRect(0, 0, 800, 400); // clear canvas
+ctx.rect(0,0,800,400)
+ctx.fillStyle="rgba(254, 168, 119)";
+ctx.fill()
+
+ctx.font = "30px Verdana";
+var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+gradient.addColorStop("0", "blue");
+gradient.addColorStop("0.5", "magenta");
+gradient.addColorStop("1.0", "red");
+ctx.fillStyle = gradient;
+ctx.fillText("Pong Game!", 300, 50);
+
+ctx.font = "20px Georgia";
+ctx.fillText("Player 1", 30, 50);
+ctx.fillText("Player 2", 700, 50);
+table(ctx);
+net(ctx);
+updatePaddle1(ctx);
+paddle2(ctx);
+updateBall(ctx);   
+}
+
+var p2Speed = 10
+function padMove2(e){
+var key = e.keyCode
+console.log(key)
+if (key == 105){
+   p2Y = p2Y - p2Speed
+}
+if (key == 107){
+    p2Y = p2Y + p2Speed
+}
+if (p2Y <= 0){
+    p2Y = 0
+}
+if(p2Y >= 320){
+    p2Y = 320
+}
+}
+
+p1Speed = 10
+function padMove(e){
+var key = e.keyCode
+//console.log("keycode " + key);
+if (key == 119) {  // W
+pY = pY-p1Speed;
+}  
+if (key == 115) {  // S
+pY = pY+p1Speed;
+}  
+if (pY <= 0){
+    pY = 0
+}
+if (pY + pS>= 400){
+    pY = boundryY-pS
+}
+if(key == 112){
+    // press p to increment the speed
+    ballSpeed  = ballSpeed + 1
+}
+if(key == 111){
+    ballSpeed = ballSpeed -1
+}
+
+}
+function ballMove(e){
+var key = e.keyCode
+if(key == 97 || key == 100){
+    startPlay = true
+}
+}
+
+function updatePhysics(){
+// update the postition of the ball
+}
+
+function inc(){
+
+//updatePhysics(); // update all the
+//objects that move by themselves;
+
+window.requestAnimationFrame(draw);
+}
+
+
+function init(){
+window.addEventListener("keypress", padMove, true);
+window.addEventListener("keypress", padMove2, true);
+window.addEventListener("keypress", ballMove, true);
+setInterval(inc, 10);
+}
+
+</script>
+</head>
+
+
+<body onload="init();">
+<canvas id="canvas" width="800" height="400"></canvas>
+<br>
+<div class="score-text">Player 1 score: <span id="score1"></span></div>
+<br>
+<div class="score-text">Player 2 score: <span id="score"></span></div>
+<div id="winModal" class="winModal">
+    <div class="modal-content">
+      <p>The Player <span id="playNum"></span> Wins</p>
+      <div>click <a id="paBtn" href='pComputer.html'>Play Again</a> or <a id="exitBtn" href='page1.html'>Exit</a></div>
+    </div>
+  
+  </div>
+</body>
+</html>
