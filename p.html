@@ -19,7 +19,7 @@ bY = 200;
 bR = 20;
 bvX = 3.0;
 bvY = 3.0;
-ballSpeed = 8
+ballSpeed = 3
 
 p1 = false
 p2 = false
@@ -140,32 +140,15 @@ function updatePaddle1(ctx){
     }
     ctx.restore();
     }
-function table(ctx){
-    ctx.save()
-    ctx.beginPath();
-    ctx.moveTo(300, 100);
-    ctx.arcTo(250, 100, 250, 150, 50);
-    ctx.lineTo(250, 250);
-    ctx.arcTo(250, 300, 300, 300, 50);
-    ctx.lineTo(500, 300);
-    ctx.arcTo(550, 300, 550, 250, 50);
-    ctx.lineTo(550, 150)
-    ctx.arcTo(550, 100, 500, 100, 50);
-    ctx.lineTo(300, 100)
-    ctx.fillStyle="rgb(0, 128, 255)";
-    ctx.fill();
-    ctx.stroke();
-    ctx.closePath();
-    ctx.restore()
-}
+
 function net(ctx){
     ctx.save()
     ctx.beginPath()
-    ctx.moveTo(390, 90)
-    ctx.lineTo(410, 90)
-    ctx.lineTo(410, 310)
-    ctx.lineTo(390, 310)
-    ctx.lineTo(390, 90)
+    ctx.moveTo(390, 70)
+    ctx.lineTo(410, 70)
+    ctx.lineTo(410, 330)
+    ctx.lineTo(390, 330)
+    ctx.lineTo(390, 70)
     ctx.fillStyle="white"
     ctx.fill()
     ctx.stroke()
@@ -195,14 +178,13 @@ function draw(){
     ctx.font = "20px Georgia";
     ctx.fillText("Player 1", 30, 50);
     ctx.fillText("Player 2", 700, 50);
-    table(ctx);
     net(ctx);
     updatePaddle1(ctx);
     paddle2(ctx);
     updateBall(ctx);   
 }
 
-var p2Speed = 10
+var p2Speed = 20
 function padMove2(e){
     var key = e.keyCode
     console.log(key)
@@ -220,7 +202,7 @@ function padMove2(e){
     }
 }
 
-p1Speed = 10
+p1Speed = 20
 function padMove(e){
     var key = e.keyCode
     //console.log("keycode " + key);
@@ -279,9 +261,11 @@ function init(){
     <body onload="init();">
     <canvas id="canvas" width="800" height="400"></canvas>
     <br>
-    <div class="score-text">Player 1 score: <span id="score1"></span></div>
+    <div class="score-text">Player 1 score : <span id="score1"></span></div>
     <br>
-    <div class="score-text">Player 2 score: <span id="score"></span></div>
+    <div class="score-text">Player 2 score : <span id="score"></span></div>
+    <br>
+<div class="speedText">Press <span class='pBall'>P</span> to speed up the BALL</div>
     <div id="winModal" class="winModal">
         <div class="modal-content">
           <p>The Player <span id="playNum"></span> Wins</p>
