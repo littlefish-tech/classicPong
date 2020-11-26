@@ -164,20 +164,17 @@ function draw(){
     // clear the canvas
     ctx.clearRect(0, 0, 800, 400); // clear canvas
     ctx.rect(0,0,800,400)
-    ctx.fillStyle="rgba(254, 168, 119)";
+    ctx.fillStyle="rgba(254, 168, 119, 0.65)";
     ctx.fill()
 
-    ctx.font = "30px Verdana";
-    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop("0", "blue");
-    gradient.addColorStop("0.5", "magenta");
-    gradient.addColorStop("1.0", "red");
-    ctx.fillStyle = gradient;
-    ctx.fillText("Pong Game!", 300, 50);
+    ctx.font = '30px serif';
+    ctx.fillStyle = "black";
+    ctx.fillText('Game of Pong', 300, 50);
 
-    ctx.font = "20px Georgia";
-    ctx.fillText("Player 1", 30, 50);
-    ctx.fillText("Player 2", 700, 50);
+    ctx.font = '20px serif';
+    ctx.fillStyle = "black";
+    ctx.fillText('Player 1', 30, 50);
+    ctx.fillText('Player 2', 700, 50);
     net(ctx);
     updatePaddle1(ctx);
     paddle2(ctx);
@@ -265,7 +262,7 @@ function init(){
     <br>
     <div class="score-text">Player 2 score : <span id="score"></span></div>
     <br>
-<div class="speedText">Press <span class='pBall'>P</span> to speed up the BALL</div>
+<div class="speedText">Press <span class='pBall'>P</span> to speed up the BALL <span class='pBall'>O</span> to Slow Down the BALL</div>
     <div id="winModal" class="winModal">
         <div class="modal-content">
           <p>The Player <span id="playNum"></span> Wins</p>
